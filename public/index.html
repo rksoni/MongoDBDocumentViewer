@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>MongoDB Document Viewer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="dist/themes/default/style.min.css" />
+</head>
+<body>
+
+<div class="container">
+    <h2>Mongodb Document Viewer</h2>
+    <form role="form" id="submitQuery" class="QueryData">
+        <div class="form-group">
+            <input type="text" id="hostname" value="stage2t3231" size="15">
+            .qa.paypal.com:<input type="text" id="portnum" value="37107" size="10">
+            collection <input type="text" id="collection" value="account" size="15">
+            db <input type="text" id="db" value="comp" size="10">
+            user <input type="text" id="user" value="" size="10">
+            password <input type="password" id="password" value="" size="10">
+            query<input type="query" id="query" value="" size="20">
+        </div>
+        <button id = "submit" type="submit" class="btn btn-default">Submit</button>
+
+    </form>
+</div>
+</body>
+</br>
+<div class="container" id="jstree_demo_div"></div>
+</body>
+</html>
+
+<body>
+<script src="dist/jquery.jsonview.js"></script>
+<script src="dist/jstree.js"></script>
+<script>
+
+
+
+    $("#submitQuery").submit(function(e){
+        e.preventDefault();
+        console.log("rakesh");
+        var name = $("#hostname").val();
+        console.log("host :", name);
+        var port = $("#portnum").val();
+        var db = $("#db").val();
+        var collection = $("#collection").val();
+        var query = $("#query").val();
+        var user = $("#user").val();
+        var password = $("#password").val();
+
+
+
+            $.ajax({
+                data: {
+                    "host":name,
+                    "port":port,
+                    "db":db,
+                    "user":user,
+                    "password":password,
+                    "collection":collection,
+                    "query": query
+                },
+                url: 'http://localhost:3000/queryDB',
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    console.log('process sucess : ', data);
+                    $("#jstree_demo_div").JSONView(data, { collapsed: true });
+                }
+
+            });
+    });
+//});
+
+</script>
